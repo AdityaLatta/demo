@@ -4,7 +4,7 @@ import Link from "next/link";
 import Button from "../_components/Button";
 import { signuphandler } from "../actions/authActions";
 import { useFormState } from "react-dom";
-// import Input from "../_components/Input";
+import FormInput from "../_components/FormInput";
 
 const Page = () => {
 	const [signupState, signup] = useFormState(signuphandler, undefined);
@@ -20,34 +20,34 @@ const Page = () => {
 						<form
 							action={signup}
 							className="space-y-4 md:space-y-6">
-							{/* <Input
+							<FormInput
 								type="text"
 								placeholder="Enter Your Name"
 								name="name">
 								Name
-							</Input> */}
+							</FormInput>
 							{signupState?.errors?.name && (
 								<p className="text-red-500 text-xs">
 									{signupState.errors.name}
 								</p>
 							)}
-							{/* <Input
+							<FormInput
 								type="email"
 								placeholder="Enter Your Email"
 								name="email">
 								Email
-							</Input> */}
+							</FormInput>
 							{signupState?.errors?.email && (
 								<p className="text-red-500 text-xs">
 									{signupState.errors.email}
 								</p>
 							)}
-							{/* <Input
+							<FormInput
 								type="password"
 								placeholder="Enter Your Password"
 								name="password">
 								Password
-							</Input> */}
+							</FormInput>
 							{signupState?.errors?.password && (
 								<p className="text-red-500 text-xs">
 									{signupState.errors.password}

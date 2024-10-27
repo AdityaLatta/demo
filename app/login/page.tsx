@@ -4,7 +4,7 @@ import Link from "next/link";
 import Button from "../_components/Button";
 import { loginhandler } from "../actions/authActions";
 import { useFormState } from "react-dom";
-import Input from "../_components/Input";
+import FormInput from "../_components/FormInput";
 
 const Page = () => {
 	const [loginState, login] = useFormState(loginhandler, undefined);
@@ -18,23 +18,23 @@ const Page = () => {
 							Sign in to your account
 						</h1>
 						<form action={login} className="space-y-4 md:space-y-6">
-							<Input
+							<FormInput
 								type="email"
 								placeholder="Email"
 								name="email">
 								Email
-							</Input>
+							</FormInput>
 							{loginState?.errors?.email && (
 								<p className="text-red-500 text-xs">
 									{loginState.errors.email}
 								</p>
 							)}
-							<Input
+							<FormInput
 								type="password"
 								placeholder="Password"
 								name="password">
 								Password
-							</Input>
+							</FormInput>
 							{loginState?.errors?.password && (
 								<p className="text-red-500 text-xs">
 									{loginState.errors.password}
