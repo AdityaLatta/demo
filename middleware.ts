@@ -14,7 +14,19 @@ export async function middleware(req: NextRequest) {
 	const session = await decrypt(cookie || "");
 
 	if (isProtectedRoute && !session) {
-		return NextResponse.redirect(new URL("/login", req.url));
+		const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+
+		if (!params.start || !params.end || !params.age || !params.gender) {
+			return NextResponse.redirect(new URL("/login", req.url));
+		}
+
+		const res = NextResponse.redirect(new URL("/login", req.url));
+
+		res.cookies.set("filters", JSON.stringify(params), {
+			expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+		});
+
+		return res;
 	}
 
 	if (isPublicRoute && session) {

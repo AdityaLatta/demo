@@ -3,6 +3,7 @@
 import { Chart, type ChartEvent, registerables } from "chart.js";
 import React, { useEffect, useRef } from "react";
 import { useStats } from "../_context/stats";
+import { SyncLoader } from "react-spinners";
 
 Chart.register(...registerables);
 
@@ -186,6 +187,13 @@ const BarChart = ({
 			myBarChart.destroy();
 		};
 	}, [stats, setlineData]);
+
+	if (!stats)
+		return (
+			<div className="h-full w-full flex justify-center items-center rounded-lg bg-white p-4 shadow-lg">
+				<SyncLoader color="#1A5ED4" />
+			</div>
+		);
 
 	return (
 		<>

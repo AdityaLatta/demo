@@ -1,9 +1,10 @@
 import React from "react";
+import { BarLoader } from "react-spinners";
 
 const Loader = () => {
 	return (
 		<div className="w-screen h-screen flex items-center justify-center">
-			<div className="animate-spin rounded-full h-20 w-20 border-4 border-t-transparent border-gray-900"></div>
+			<BarLoader color="#1A5ED4" width={200} />
 		</div>
 	);
 };

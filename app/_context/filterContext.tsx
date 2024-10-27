@@ -30,7 +30,7 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
 	const [loading, setLoading] = React.useState(true);
 
 	React.useEffect(() => {
-		const getFilter = () => {
+		const getFilter = async () => {
 			if (params.size > 0) {
 				const filterData = {
 					start: new Date(params.get("start") || ""),
@@ -51,6 +51,8 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
 			} else {
 				setFilter(defaultFilter);
 			}
+
+			await new Promise((resolve) => setTimeout(resolve, 2000));
 
 			setLoading(false);
 		};

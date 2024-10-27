@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { useStats } from "../_context/stats";
 
 import zoomPlugin from "chartjs-plugin-zoom";
+import { SyncLoader } from "react-spinners";
 
 const LineChart = ({ lineData }: { lineData: (number | null)[] }) => {
 	const { stats } = useStats();
@@ -107,6 +108,13 @@ const LineChart = ({ lineData }: { lineData: (number | null)[] }) => {
 			};
 		}
 	}, [stats, lineData]);
+
+	if (!stats)
+		return (
+			<div className="h-full w-full flex justify-center items-center rounded-lg bg-white p-4 shadow-lg">
+				<SyncLoader color="#1A5ED4" />
+			</div>
+		);
 
 	return (
 		<>

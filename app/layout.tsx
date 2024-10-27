@@ -5,6 +5,7 @@ import { StatsProvider } from "./_context/stats";
 import { Toaster } from "react-hot-toast";
 import QueryProvider from "./_context/queryProvider";
 import { Suspense } from "react";
+import Loader from "./_components/Loader";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -19,7 +20,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<Suspense fallback={<div>Loading...</div>}>
+				<Suspense fallback={<Loader />}>
 					<FilterProvider>
 						<QueryProvider>
 							<StatsProvider>{children}</StatsProvider>
