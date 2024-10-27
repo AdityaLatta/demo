@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { FilterProvider } from "./_context/filterContext";
+import { StatsProvider } from "./_context/stats";
+import { Toaster } from "react-hot-toast";
+import QueryProvider from "./_context/queryProvider";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -13,7 +18,16 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<body>
+				<Suspense fallback={<div>Loading...</div>}>
+					<FilterProvider>
+						<QueryProvider>
+							<StatsProvider>{children}</StatsProvider>
+						</QueryProvider>
+					</FilterProvider>
+				</Suspense>
+				<Toaster />
+			</body>
 		</html>
 	);
 }

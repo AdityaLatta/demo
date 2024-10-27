@@ -1,27 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt, getRequestHeaders } from "./lib";
+import { decrypt } from "./app/lib/lib";
+
+const protectedRoutes = ["/"];
+const publicRoutes = ["/login", "/signup"];
 
 export async function middleware(req: NextRequest) {
-	const cookie = req.cookies.get("email")?.value;
+	const path = req.nextUrl.pathname;
 
-	const userIp = await getRequestHeaders(req);
+	const isProtectedRoute = protectedRoutes.includes(path);
+	const isPublicRoute = publicRoutes.includes(path);
 
-	if (cookie) {
-		const session = await decrypt(cookie);
+	const cookie = req.cookies.get("session")?.value;
+	const session = await decrypt(cookie || "");
 
-		if (!session) {
-			const res = NextResponse.next();
-			res.cookies.delete("email");
-			return res;
-		}
+	if (isProtectedRoute && !session) {
+		return NextResponse.redirect(new URL("/login", req.url));
 	}
 
-	const res = NextResponse.next();
+	if (isPublicRoute && session) {
+		return NextResponse.redirect(new URL("/", req.url));
+	}
 
-	res.cookies.set("ipAgent", JSON.stringify(userIp), {
-		httpOnly: true,
-		expires: new Date(Date.now() + 60 * 60 * 1000),
-	});
+	const filters = JSON.parse(req.cookies.get("filters")?.value || "{}");
 
-	return res;
+	if (
+		isProtectedRoute &&
+		session &&
+		req.nextUrl.searchParams.size === 0 &&
+		filters.start &&
+		filters.end &&
+		filters.age &&
+		filters.gender
+	) {
+		const url = req.nextUrl.clone();
+
+		url.searchParams.set("start", filters.start);
+		url.searchParams.set("end", filters.end);
+		url.searchParams.set("age", filters.age);
+		url.searchParams.set("gender", filters.gender);
+
+		return NextResponse.redirect(url);
+	}
+
+	return NextResponse.next();
 }
