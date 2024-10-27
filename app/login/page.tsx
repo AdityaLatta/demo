@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Button from "../_components/Button";
-import Input from "../_components/Input";
 import { loginhandler } from "../actions/authActions";
 import { useFormState } from "react-dom";
+import Input from "../_components/Input";
 
 const Page = () => {
 	const [loginState, login] = useFormState(loginhandler, undefined);
